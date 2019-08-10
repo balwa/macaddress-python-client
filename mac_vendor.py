@@ -54,6 +54,10 @@ def request_sender(request):
         response.close()
 
 
+def formatted_output(response, query_fields, output_type):
+    return ""
+
+
 def main():
     """Main function
     """
@@ -101,11 +105,14 @@ def main():
     except KeyError:
         logging.error("Please set the environment variable MACADDRESSIO_API_KEY")
         sys.exit(1)
-    if validate_macaddress(mac_address):
-        response = request_sender(request_builder(mac_address, api_key))
-    else:
+    if not validate_macaddress(mac_address):
         logging.error("Could not validate mac_address")
         sys.exit(1)
+    response = request_sender(request_builder(mac_address, api_key))
+    if args.rawjson:
+        print(response)
+        sys.exit(0)
+    print(formatted_output(response, query_fields, output_type))
 
 
 if __name__ == "__main__":
