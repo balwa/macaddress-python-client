@@ -103,13 +103,17 @@ def formatted_output(response, query_list, output_type):
         output_str = json.dumps(output_dict)
     elif output_type == "csv":
         output_str = (
-            ",".join(output_dict.keys()) + "\n" + ",".join('"{0}"'.format(val) for val in output_dict.values())
+            ",".join(output_dict.keys())
+            + "\n"
+            + ",".join('"{0}"'.format(val) for val in output_dict.values())
         )
     else:
         if len(output_dict) == 1:
             output_str = next(iter(output_dict.values()))
         else:
-            output_str = '\n'.join('{!s}={!s}'.format(key,val) for (key,val) in output_dict.items())
+            output_str = "\n".join(
+                "{!s}={!s}".format(key, val) for (key, val) in output_dict.items()
+            )
     return output_str
 
 
@@ -160,7 +164,7 @@ def main():
 
     try:
         api_key = os.environ["MACADDRESSIO_API_KEY"]
-        if api_key =="":
+        if api_key == "":
             logging.error("Please set the environment variable MACADDRESSIO_API_KEY")
             sys.exit(1)
     except KeyError:
