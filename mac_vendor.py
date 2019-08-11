@@ -160,6 +160,9 @@ def main():
 
     try:
         api_key = os.environ["MACADDRESSIO_API_KEY"]
+        if api_key =="":
+            logging.error("Please set the environment variable MACADDRESSIO_API_KEY")
+            sys.exit(1)
     except KeyError:
         logging.error("Please set the environment variable MACADDRESSIO_API_KEY")
         sys.exit(1)
